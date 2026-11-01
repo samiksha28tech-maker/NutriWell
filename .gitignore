@@ -1,0 +1,7 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+instance/nutriwell.db
+instance/*.db
+.env

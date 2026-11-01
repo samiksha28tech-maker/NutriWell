@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Exercise guide | NutriWell{% endblock %}
+{% block content %}
+<section class="page-heading"><span class="eyebrow">MOVE AT YOUR PACE</span><h1>Exercise guide</h1><p>Suggestions based on your selected goal: <b>{{ goal.replace('_',' ') }}</b>.</p></section>
+<div class="notice warning"><strong>Health and safety:</strong> {{ health_note }}</div>
+<section class="feature-grid">
+  {% for ex in exercises %}
+  <article class="card exercise-card"><div class="feature-icon">🌿</div><h2>{{ ex.name }}</h2><p class="muted">{{ ex.duration }}</p><ol>{% for step in ex.steps %}<li>{{ step }}</li>{% endfor %}</ol><a class="button secondary" href="{{ ex.video }}" target="_blank" rel="noopener">Watch video search ↗</a></article>
+  {% endfor %}
+</section>
+<div class="notice">Stop if you experience chest pain, severe breathlessness, dizziness, unusual pain or other concerning symptoms and seek appropriate medical help. A health-condition selection does not guarantee that an activity is safe for you.</div>
+{% endblock %}

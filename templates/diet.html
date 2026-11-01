@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}My diet | NutriWell{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <span class="eyebrow">MEAL IDEAS</span>
+  <h1>{{ goal_info.title }}</h1>
+  <p>Goal: <b>{{ current_user.goal.replace('_',' ') }}</b> · Food preference: <b>{{ food_label }}</b></p>
+  <p>{{ goal_info.range }}</p>
+</section>
+<div class="notice">{{ goal_info.goal }}</div>
+<div class="notice warning"><strong>Health condition note:</strong> {{ health_note }}</div>
+{% if condition in ('heart', 'other') %}
+<div class="notice warning">Because you selected a heart-related or unspecified/multiple health condition, NutriWell is not displaying a meal prescription. Please have a clinician or registered dietitian review your needs before using a diet plan.</div>
+{% else %}
+<section class="meal-list">
+  {% for meal in meals %}
+  <article class="card meal-card">
+    <div class="meal-time">{{ meal.time }}</div>
+    <div class="meal-content">
+      <h2>{{ meal.name }}</h2>
+      <p>{{ meal.food }}</p>
+      <small>{{ meal.note }}</small>
+    </div>
+    <form method="post"><input type="hidden" name="meal_key" value="{{ meal.key }}"><button class="button {{ 'secondary' if logs.get(meal.key) else '' }}" type="submit">{{ '✓ Completed' if logs.get(meal.key) else 'Mark done' }}</button></form>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+<section class="card" style="margin-top:1rem;padding:1.25rem">
+  <h2>Weekly flexible day: {{ flexible_day }}</h2>
+  <form method="post" class="form-grid" style="margin:0.75rem 0">
+    <label>Change your flexible day<select name="flexible_day">{% for day in ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}<option value="{{ day }}" {{ 'selected' if day == flexible_day else '' }}>{{ day }}</option>{% endfor %}</select></label>
+    <div style="align-self:end"><button class="button" type="submit">Save day</button></div>
+  </form>
+  <p>Enjoy a favourite meal in a comfortable portion, eat mindfully and return to your usual routine at the next meal. This is not an unlimited-eating day, and health-related restrictions, allergies and clinician advice still apply.</p>
+</section>
+<div class="notice">Meal quantities are examples, not individualized prescriptions. Calorie and protein needs vary by age, height, current weight, activity, medications and health conditions. Ask a registered dietitian/healthcare professional to review your plan if you have a medical condition.</div>
+{% endblock %}
